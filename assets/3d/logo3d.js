@@ -34,6 +34,7 @@ async function start() {
   } catch (e) { return; }   // kein WebGL: Bild bleibt stehen
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.toneMapping = THREE.NeutralToneMapping;
+renderer.toneMappingExposure = 0.9;
   renderer.setClearColor(0x000000, 0);
 
   const szene = new THREE.Scene();
@@ -41,7 +42,7 @@ async function start() {
   const kamera = new THREE.PerspectiveCamera(25, 1, 10, 20000);
 
   const haupt = new THREE.DirectionalLight(0xffffff, 2.2); haupt.position.set(-900, 1400, 1600); szene.add(haupt);
-  const kante = new THREE.DirectionalLight(0xf2f5ff, 1.6); kante.position.set(1300, 1100, -1500); szene.add(kante);
+  const kante = new THREE.DirectionalLight(0xe8f0ff, 3); kante.position.set(1600, 1200, -2000); szene.add(kante);
   const fuell = new THREE.DirectionalLight(0xffffff, 0.3); fuell.position.set(0, -900, 1800); szene.add(fuell);
 
   const svg = await (await fetch(rahmen.dataset.svg)).text();
@@ -50,7 +51,7 @@ async function start() {
   let nr = 0;
   for (const pfad of daten.paths) {
     const farbe = new THREE.Color().setStyle(pfad.userData.style.fill || '#ffffff');
-    const material = new THREE.MeshPhysicalMaterial({ color: farbe, roughness: 0.34, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 0.6 });
+    const material = new THREE.MeshPhysicalMaterial({ color: farbe, roughness: 0.4, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.06, envMapIntensity: 0.35 });
     const staffel = [0, -14, 10][nr++ % 3];
     for (const roh of SVGLoader.createShapes(pfad)) {
       const geo = new THREE.ExtrudeGeometry(glaetten(roh), { depth: 110, bevelEnabled: true, bevelThickness: 22, bevelSize: 16, bevelSegments: 6, curveSegments: 4 });
@@ -65,7 +66,7 @@ async function start() {
   logo.position.sub(box.getCenter(new THREE.Vector3()));
   const groesse = box.getSize(new THREE.Vector3());
   const halter = new THREE.Group(); halter.add(logo); szene.add(halter);
-  const grundwinkel = -20 * Math.PI / 180;
+  const grundwinkel = -15 * Math.PI / 180;
   halter.rotation.y = grundwinkel;
 
   function anpassen() {
