@@ -410,3 +410,12 @@ strong { font-weight: 600; color: var(--tinte); }
 .kreisbild { margin: 0 auto; max-width: 960px; border-radius: var(--radius-gross); overflow: hidden; aspect-ratio: 800 / 586; background: #111; }
 .kreisbild img { width: 100%; height: 100%; object-fit: cover; }
 .buehne-kreis { box-shadow: 0 30px 90px rgba(122,114,255,.18); }
+
+/* 3D-Logo auf der Startseite */
+.logo3d { position: relative; width: clamp(260px, 40vw, 520px); aspect-ratio: 900 / 670; margin: 0 auto clamp(16px, 2.4vw, 32px); animation: logo-ein 1.2s var(--kurve-weich) both; }
+.logo3d img, .logo3d canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.logo3d img { object-fit: contain; transition: opacity .6s var(--kurve); }
+.logo3d canvas { opacity: 0; transition: opacity .6s var(--kurve); }
+.logo3d.bereit canvas { opacity: 1; }
+.logo3d.bereit img { opacity: 0; }
+.logo3d::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: -4%; height: 10%; background: radial-gradient(closest-side, rgba(122,114,255,.28), transparent); filter: blur(10px); z-index: -1; }
